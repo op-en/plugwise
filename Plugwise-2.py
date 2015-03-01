@@ -777,7 +777,7 @@ class PWControl(object):
                 #debug("MQTT put value in qpub")
                 msg = str('{"typ":"pwpower","ts":%d,"mac":"%s","power":%.2f}' % (ts, energy, usage))
                 qpub.put(("power", mac, msg))
-                msg = str('{"time":%d,"energy":"%.2f","power":%.2f}' % (ts, , usage))
+                msg = str('{"time":%d,"energy":"%.2f","power":%.2f}' % (ts, energy , usage))
                 qpub.put((mac,"meterevent", msg))
             except ValueError:
                 #print("%5d, " % (ts,))
