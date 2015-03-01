@@ -760,8 +760,8 @@ class PWControl(object):
             if not c.online:
                 continue
             
-            if mqtt: 
-                self.process_mqtt_commands()
+            #if mqtt: 
+            #    self.process_mqtt_commands()
                 
             #prepare for logging values
             if epochf:
@@ -770,13 +770,15 @@ class PWControl(object):
                 t = datetime.time(datetime.utcnow()-timedelta(seconds=time.timezone))
                 ts = 3600*t.hour+60*t.minute+t.second
             try:
-                _, usage, _, _ = c.get_power_usage()
+                _, usage, energy, _ = c.get_power_usage()
                 #print("%10d, %8.2f" % (ts, usage,))
                 f.write("%5d, %8.2f\n" % (ts, usage,))
                 self.curfile.write("%s, %.2f\n" % (mac, usage))
                 #debug("MQTT put value in qpub")
-                msg = str('{"typ":"pwpower","ts":%d,"mac":"%s","power":%.2f}' % (ts, mac, usage))
+                msg = str('{"typ":"pwpower","ts":%d,"mac":"%s","power":%.2f}' % (ts, energy, usage))
                 qpub.put(("power", mac, msg))
+                msg = str('{"time":%d,"energy":"%.2f","power":%.2f}' % (ts, , usage))
+                qpub.put((mac,"meterevent", msg))
             except ValueError:
                 #print("%5d, " % (ts,))
                 f.write("%5d, \n" % (ts,))
@@ -1235,9 +1237,9 @@ class PWControl(object):
             
             if day != prev_day:
                 self.setup_actfiles()
-            print "In %i" % time.time()    
+   
             self.ten_seconds()
-            print "Out %i" % time.time()
+            
             #self.log_status()
             
             if hour != prev_hour:
