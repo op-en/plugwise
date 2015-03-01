@@ -1235,9 +1235,10 @@ class PWControl(object):
             
             if day != prev_day:
                 self.setup_actfiles()
-                
+            print "In %i" % time.time()    
             self.ten_seconds()
-            self.log_status()
+            print "Out %i" % time.time()
+            #self.log_status()
             
             if hour != prev_hour:
                 #self.hourly()
