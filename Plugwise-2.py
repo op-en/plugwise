@@ -747,6 +747,8 @@ class PWControl(object):
         The missed values are just not logged. The circle ends up in 
         online = False, and the self.test_offline() tries to recover
         """
+        global mqtt
+        
         self.curfile.seek(0)
         self.curfile.truncate(0)
         for mac, f in self.actfiles.iteritems():
@@ -758,6 +760,9 @@ class PWControl(object):
             if not c.online:
                 continue
             
+            if mqtt: 
+                self.process_mqtt_commands()
+                
             #prepare for logging values
             if epochf:
                 ts = calendar.timegm(datetime.utcnow().utctimetuple())
