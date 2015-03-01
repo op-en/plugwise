@@ -1259,6 +1259,7 @@ class PWControl(object):
                 self.cleanup_tmp()
                 
             #Hourly log_recordings. Process one every ten seconds
+            logrecs = False
             if logrecs:
                 breaked = False
                 for c in self.circles:
