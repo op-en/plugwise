@@ -1184,20 +1184,20 @@ class PWControl(object):
         # except:
             # pass
             
+        self.poll_configuration()
+            
         logrecs = True
         while 1:
-            #check whether user defined configuration has been changed
-            #when schedules are changed, this call can take over ten seconds!
-            self.test_offline()
-            self.poll_configuration()
+            
             ##align with the next ten seconds.
             #time.sleep(10-datetime.now().second%10)
             #align to next 10 second boundary, while checking for input commands.
             ref = datetime.now()
             proceed_at = ref + timedelta(seconds=(10 - ref.second%10), microseconds= -ref.microsecond)
-            while datetime.now() < proceed_at:
-                if mqtt: self.process_mqtt_commands()
-                time.sleep(0.5)
+            #while datetime.now() < proceed_at:
+            if mqtt: 
+                self.process_mqtt_commands()
+                #time.sleep(0.5)
             #prepare for logging values
             prev_dst = dst
             prev_day = day
@@ -1214,9 +1214,15 @@ class PWControl(object):
             hour = now.hour
             minute = now.minute
             
+            
+            
             #read historic data only one circle per minute
             if minute != prev_minute:
                 logrecs = True
+                #check whether user defined configuration has been changed
+                #when schedules are changed, this call can take over ten seconds!
+                self.test_offline()
+                self.poll_configuration()
             
             #get relays state just after each new quarter hour for circles operating a schedule.
             if minute % 15 == 0 and now.second > 8:
@@ -1224,8 +1230,10 @@ class PWControl(object):
             
             if day != prev_day:
                 self.setup_actfiles()
+                
             self.ten_seconds()
             self.log_status()
+            
             if hour != prev_hour:
                 #self.hourly()
                 logrecs = True
