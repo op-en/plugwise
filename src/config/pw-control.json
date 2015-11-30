@@ -1,12 +1,11 @@
-{"dynamic": [
-{"mac": "000D6F0001000000", "switch_state": "on", "name": "circle+", "schedule_state": "off", "schedule": "", "savelog": "no", "monitor": "no"},
-{"mac": "000D6F0001000001", "switch_state": "on", "name": "circle1", "schedule_state": "off", "schedule": "winter", "savelog": "yes", "monitor": "no"},
-{"mac": "000D6F0001000002", "switch_state": "on", "name": "circle2", "schedule_state": "off", "schedule": "", "savelog": "yes", "monitor": "no"},
-{"mac": "000D6F0001000003", "switch_state": "on", "name": "solar-1", "schedule_state": "off", "schedule": "", "savelog": "yes", "monitor": "yes"},
-{"mac": "000D6F0001000004", "switch_state": "on", "name": "circle4", "schedule_state": "off", "schedule": "__PW2PY__test-alternate", "savelog": "yes", "monitor": "no"},
-{"mac": "000D6F0001000005", "switch_state": "on", "name": "circle5", "schedule_state": "off", "schedule": "", "savelog": "yes", "monitor": "no"},
-{"mac": "000D6F0001000006", "switch_state": "on", "name": "solar-2", "schedule_state": "off", "schedule": "", "savelog": "yes", "monitor": "yes"},
-{"mac": "000D6F0001000007", "switch_state": "on", "name": "nas", "schedule_state": "off", "schedule": "", "savelog": "yes", "monitor": "yes"}
-], 
-"log_level": "info", 
-"log_comm": "no"}
+{"log_level": "info", "dynamic": 
+
+[
+	{"switch_state": "on", "name": "Circle+", "schedule_state": "off", "schedule": "", "mac": "000D6F0002588BAC", "savelog": "yes", "monitor": "yes"}, 
+	{"switch_state": "on", "name": "Plug1", "schedule_state": "off", "schedule": "", "mac": "000D6F000277809F", "savelog": "yes", "monitor": "yes"},
+	{"switch_state": "on", "name": "Plug2", "schedule_state": "off", "schedule": "", "mac": "000D6F0000994F56", "savelog": "yes", "monitor": "yes"},
+	{"switch_state": "on", "name": "Plug3", "schedule_state": "off", "schedule": "", "mac": "000D6F0003974693", "savelog": "yes", "monitor": "yes"},
+	{"switch_state": "on", "name": "Plug4", "schedule_state": "off", "schedule": "", "mac": "000D6F000099891D", "savelog": "yes", "monitor": "yes"},
+	{"switch_state": "on", "name": "Plug5", "schedule_state": "off", "schedule": "", "mac": "000D6F0000994AD8", "savelog": "yes", "monitor": "yes"}
+
+], "log_comm": "no"}

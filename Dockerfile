@@ -13,4 +13,5 @@ WORKDIR /opt/plugwise
 RUN python setup.py install
 
 RUN mkdir /data
+RUN mkdir /log
 CMD python Plugwise-2.py
