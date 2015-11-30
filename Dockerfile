@@ -10,7 +10,10 @@ RUN apt-get update && \
 
 ADD src /opt/plugwise
 WORKDIR /opt/plugwise
-RUN python setup.py install
+RUN apt-get update && \
+  apt-get install -y gcc && \
+  python setup.py install && \
+  apt-get purge -y --auto-remove gcc
 
 RUN mkdir /plugwise && mkdir /plugwise/data && mkdir /plugwise/log
 CMD python Plugwise-2.py
