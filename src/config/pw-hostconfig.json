@@ -1,1 +1,1 @@
-{"permanent_path": "/plugwise/data", "tmp_path": "/tmp", "log_path": "/plugwise/log", "serial": "/dev/ttyUSB0", "log_format": "epoch", "mqtt_ip": "127.0.0.1", "mqtt_port": "1883", "mqtt_user":"","mqtt_password":""}
+{"permanent_path": "/plugwise/data", "tmp_path": "/tmp", "log_path": "/plugwise/log", "serial": "/dev/ttyUSB0", "log_format": "epoch", "mqtt_ip": "127.0.0.1", "mqtt_port": "1883"}
