@@ -12,6 +12,5 @@ ADD src /opt/plugwise
 WORKDIR /opt/plugwise
 RUN python setup.py install
 
-RUN mkdir /data
-RUN mkdir /log
+RUN mkdir /plugwise && mkdir /plugwise/data && mkdir /plugwise/log
 CMD python Plugwise-2.py
