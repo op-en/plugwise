@@ -1,6 +1,4 @@
-#!/usr/bin/python    
-
-
+#!/usr/bin/env python
 
 # Copyright (C) 2012,2013,2014 Seven Watt <info@sevenwatt.com>
 # <http://www.sevenwatt.com>
@@ -749,8 +747,6 @@ class PWControl(object):
         The missed values are just not logged. The circle ends up in 
         online = False, and the self.test_offline() tries to recover
         """
-        global mqtt
-        
         self.curfile.seek(0)
         self.curfile.truncate(0)
         for mac, f in self.actfiles.iteritems():
@@ -762,9 +758,6 @@ class PWControl(object):
             if not c.online:
                 continue
             
-            #if mqtt: 
-            #    self.process_mqtt_commands()
-                
             #prepare for logging values
             if epochf:
                 ts = calendar.timegm(datetime.utcnow().utctimetuple())
@@ -772,15 +765,13 @@ class PWControl(object):
                 t = datetime.time(datetime.utcnow()-timedelta(seconds=time.timezone))
                 ts = 3600*t.hour+60*t.minute+t.second
             try:
-                _, usage, energy, _ = c.get_power_usage()
+                _, usage, _, _ = c.get_power_usage()
                 #print("%10d, %8.2f" % (ts, usage,))
                 f.write("%5d, %8.2f\n" % (ts, usage,))
                 self.curfile.write("%s, %.2f\n" % (mac, usage))
                 #debug("MQTT put value in qpub")
-                msg = str('{"typ":"pwpower","ts":%d,"mac":"%s","power":%.2f}' % (ts, energy, usage))
+                msg = str('{"typ":"pwpower","ts":%d,"mac":"%s","power":%.2f}' % (ts, mac, usage))
                 qpub.put(("power", mac, msg))
-                msg = str('{"time":%d,"energy":"%.2f","power":%.2f}' % (ts, energy , usage))
-                qpub.put((mac,"meterevent", msg))
             except ValueError:
                 #print("%5d, " % (ts,))
                 f.write("%5d, \n" % (ts,))
@@ -1193,20 +1184,20 @@ class PWControl(object):
         # except:
             # pass
             
-        self.poll_configuration()
-            
         logrecs = True
         while 1:
-            
+            #check whether user defined configuration has been changed
+            #when schedules are changed, this call can take over ten seconds!
+            self.test_offline()
+            self.poll_configuration()
             ##align with the next ten seconds.
             #time.sleep(10-datetime.now().second%10)
             #align to next 10 second boundary, while checking for input commands.
             ref = datetime.now()
             proceed_at = ref + timedelta(seconds=(10 - ref.second%10), microseconds= -ref.microsecond)
-            #while datetime.now() < proceed_at:
-            if mqtt: 
-                self.process_mqtt_commands()
-                #time.sleep(0.5)
+            while datetime.now() < proceed_at:
+                if mqtt: self.process_mqtt_commands()
+                time.sleep(0.5)
             #prepare for logging values
             prev_dst = dst
             prev_day = day
@@ -1223,15 +1214,9 @@ class PWControl(object):
             hour = now.hour
             minute = now.minute
             
-            
-            
             #read historic data only one circle per minute
             if minute != prev_minute:
                 logrecs = True
-                #check whether user defined configuration has been changed
-                #when schedules are changed, this call can take over ten seconds!
-                self.test_offline()
-                self.poll_configuration()
             
             #get relays state just after each new quarter hour for circles operating a schedule.
             if minute % 15 == 0 and now.second > 8:
@@ -1239,11 +1224,8 @@ class PWControl(object):
             
             if day != prev_day:
                 self.setup_actfiles()
-   
             self.ten_seconds()
-            
-            #self.log_status()
-            
+            self.log_status()
             if hour != prev_hour:
                 #self.hourly()
                 logrecs = True
@@ -1264,7 +1246,6 @@ class PWControl(object):
                 self.cleanup_tmp()
                 
             #Hourly log_recordings. Process one every ten seconds
-            logrecs = False
             if logrecs:
                 breaked = False
                 for c in self.circles:
@@ -1301,15 +1282,6 @@ try:
     mqtt_t = None
     if  not mqtt:
         error("No MQTT python binding installed (mosquitto-python)")
-    #With user and password
-    elif cfg.has_key('mqtt_ip') and cfg.has_key('mqtt_port') and cfg.has_key('mqtt_user') and cfg.has_key('mqtt_password'):
-        #connect to server and start worker thread.
-        mqttclient = Mqtt_client(cfg['mqtt_ip'], cfg['mqtt_port'], qpub, qsub,cfg['mqtt_user'],cfg['mqtt_password'])
-        mqtt_t = threading.Thread(target=mqttclient.run)
-        mqtt_t.setDaemon(True)
-        mqtt_t.start()
-        info("MQTT thread started")
-    #Anon
     elif cfg.has_key('mqtt_ip') and cfg.has_key('mqtt_port'):
         #connect to server and start worker thread.
         mqttclient = Mqtt_client(cfg['mqtt_ip'], cfg['mqtt_port'], qpub, qsub)
@@ -1325,4 +1297,4 @@ try:
     main.run()
 except:
     close_logcomm()
-    raise 
+    raise

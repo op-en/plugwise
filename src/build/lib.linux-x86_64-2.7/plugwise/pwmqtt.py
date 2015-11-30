@@ -8,7 +8,7 @@ import time
 class Mqtt_client(object):
     """Main program class
     """
-    def __init__(self, broker, port, qpub, qsub,user = None,password = None):
+    def __init__(self, broker, port, qpub, qsub):
         """
         ...
         """
@@ -19,12 +19,6 @@ class Mqtt_client(object):
         self.qsub = qsub
         self.rc = -1
         self.mqttc = None
-        
-        #Save the username and password if any
-        self.user = user
-        self.password = password
-        
-        
         self.connect()
         debug("MQTT init done")
         
@@ -38,19 +32,10 @@ class Mqtt_client(object):
         self.mqttc.on_disconnect = self.on_disconnect
         self.mqttc.on_publish = self.on_publish
         self.mqttc.on_subscribe = self.on_subscribe
-        
-        print "Connecting with username: %s and password: %s" % (self.user,self.password)
-        debug("Connecting with username: %s and password: %s" % (self.user,self.password))
-        
-        #Set the username and password if any
-        if self.user != None:
-    	    self.mqttc.username_pw_set(self.user,self.password)
-    			
         return self._connect()
 
     def _connect(self):
         try:
-            
             self.rc = self.mqttc.connect(self.broker, self.port, 60)
             info("MQTT connected return code %d" % (self.rc,))
             if self.connected():
