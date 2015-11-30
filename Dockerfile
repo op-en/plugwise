@@ -15,5 +15,5 @@ RUN apt-get update && \
   python setup.py install && \
   apt-get purge -y --auto-remove gcc
 
-RUN mkdir /plugwise && mkdir /plugwise/data && mkdir /plugwise/log
+RUN mkdir /plugwise && mkdir /plugwise/data && mkdir /plugwise/log && touch /plugwise/data/pwlastlog.log
 CMD python Plugwise-2.py
