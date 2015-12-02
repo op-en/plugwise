@@ -4,7 +4,7 @@ This is part of the [Open Energy Project](http://op-en.se/), a research project 
 
 ## Description
 
-This is a fork of a python script that communicates with plugwise smart energy plugs.
+This is a fork of [a python script](https://github.com/SevenW/Plugwise-2-py) that communicates with plugwise smart energy plugs.
 
 It has been dockerized!
 
