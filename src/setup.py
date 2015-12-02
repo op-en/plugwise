@@ -5,14 +5,14 @@ from setuptools import setup, find_packages
 
 VERSION = '2.0'
 
-install_reqs = ['crcmod', 'mosquitto']
+install_reqs = ['crcmod', 'paho-mqtt']
 
 if sys.version_info < (3, 0):
     install_reqs.append('pyserial')
 else:
     install_reqs.append('pyserial-py3k')
 
-setup(name='plugwise2py', 
+setup(name='plugwise2py',
     version=VERSION,
     description='A server to control and log readings form Plugwise devices.',
     author='Seven Watt',
@@ -24,4 +24,3 @@ setup(name='plugwise2py',
     install_requires=install_reqs,
     scripts=['Plugwise-2.py', 'plugwise_util'],
 )
-

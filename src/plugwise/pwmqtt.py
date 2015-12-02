@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import mosquitto
+import paho.mqtt.client as paho
 from .util import *
 import Queue
 import time
@@ -19,38 +19,37 @@ class Mqtt_client(object):
         self.qsub = qsub
         self.rc = -1
         self.mqttc = None
-        
+
         #Save the username and password if any
         self.user = user
         self.password = password
-        
-        
+
+
         self.connect()
         debug("MQTT init done")
-        
+
     def connected(self):
         return (self.rc == 0)
-        
+
     def connect(self):
-        self.mqttc = mosquitto.Mosquitto("pw-control")
+        self.mqttc = paho.Client(client_id="pw-control", clean_session=True, userdata=None, protocol=paho.MQTTv31)
         self.mqttc.on_message = self.on_message
         self.mqttc.on_connect = self.on_connect
         self.mqttc.on_disconnect = self.on_disconnect
         self.mqttc.on_publish = self.on_publish
         self.mqttc.on_subscribe = self.on_subscribe
-        
+
         print "Connecting with username: %s and password: %s" % (self.user,self.password)
         debug("Connecting with username: %s and password: %s" % (self.user,self.password))
-        
+
         #Set the username and password if any
         if self.user != None:
     	    self.mqttc.username_pw_set(self.user,self.password)
-    			
+
         return self._connect()
 
     def _connect(self):
         try:
-            
             self.rc = self.mqttc.connect(self.broker, self.port, 60)
             info("MQTT connected return code %d" % (self.rc,))
             if self.connected():
@@ -59,7 +58,7 @@ class Mqtt_client(object):
         except Exception as reason:
             error("MQTT connection error: "+str(reason))
         return self.rc
-        
+
     def run(self):
         while True:
             while self.rc == 0:
@@ -80,11 +79,11 @@ class Mqtt_client(object):
                         error("MQTT connection error in publish: "+str(reason))
                 time.sleep(0.1)
             error("MQTT disconnected")
-            
+
             #attempt to reconnect
             time.sleep(5)
             self.rc = self._connect()
-       
+
     def on_message(self, mosq, obj, msg):
         info("MQTT " + msg.topic+" "+str(msg.payload))
         self.qsub.put((msg.topic, str(msg.payload)))
@@ -95,7 +94,7 @@ class Mqtt_client(object):
         else:
             error("MQTT connected return code %d" % (self.rc,))
         self.rc = rc
-            
+
     def on_disconnect(self, mosq, obj, rc):
         self.rc = rc
         info("MQTT disconnected (from on_disconnect)")
