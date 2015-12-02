@@ -15,8 +15,26 @@ Raspberry Pi build available in the [rpi folder](https://github.com/op-en/plugwi
 ```
 git clone https://github.com/op-en/plugwise
 cd plugwise
+```
+
+Configure like the step below. And then:
+
+```
 docker-compose up -d
 ```
+
+## Configure
+
+You need to configure the script to use the mac adress of your plug. The files pw-conf.json and pw-control.json in the root folder are examples of configuration.
+
+When that is done, we are ready to start the container.
+
+These files need to be mapped into the container to the locations
+
+/opt/plugwise/config/pw-conf.json
+/opt/plugwise/config/pw-control.json
+
+If you use docker-compose, this will be done automatically.
 
 ## Run it
 
