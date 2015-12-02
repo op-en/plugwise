@@ -1,0 +1,10 @@
+mosquitto:
+  image: openenergy/rpi-mosquitto
+  ports:
+    - "1883:1883"
+plugwise:
+  image: openenergy/rpi-plugwise
+  devices:
+    - "/dev/ttyUSB0:/dev/ttyUSB0"
+  links:
+    - mosquitto:mqtt
