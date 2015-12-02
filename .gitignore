@@ -2,10 +2,10 @@
 my_*
 
 # Folders
-/logger
-/dist
-/build
-/plugwise2py.egg-info
+src/logger
+src/dist
+src/build
+src/plugwise2py.egg-info
 map
 
 #misc
