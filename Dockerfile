@@ -18,4 +18,5 @@ RUN mkdir /plugwise && mkdir /plugwise/data && mkdir /plugwise/log && touch /plu
 ADD src /opt/plugwise
 RUN cd /opt/plugwise && python setup.py install
 
+WORKDIR /opt/plugwise
 CMD ["python","/opt/plugwise/Plugwise-2.py"]
