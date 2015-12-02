@@ -1,0 +1,4 @@
+{"static": [
+{"mac": "000D6F0000998B67", "category": "misc", "name": "circle+", "loginterval": "60", "always_on": "False", "production": "False", "location": "wskit1"},
+{"mac": "000D6F0000995463", "category": "device", "name": "plug1", "loginterval": "60", "always_on": "False", "production": "False", "location": "wskit1"}
+]}

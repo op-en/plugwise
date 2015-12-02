@@ -8,3 +8,6 @@ plugwise:
     - "/dev/ttyUSB0:/dev/ttyUSB0"
   links:
     - mosquitto:mqtt
+  volumes:
+    - ../pw-conf.json:/opt/plugwise/config/pw-conf.json
+    - ../pw-control.json:/opt/plugwise/config/pw-control.json

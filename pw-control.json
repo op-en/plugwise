@@ -1,0 +1,6 @@
+{"log_level": "info", "dynamic":
+
+[
+	{"switch_state": "on", "name": "Circle+", "schedule_state": "off", "schedule": "", "mac": "000D6F0000998B67", "savelog": "yes", "monitor": "yes"},
+	{"switch_state": "on", "name": "Plug1", "schedule_state": "off", "schedule": "", "mac": "000D6F0000995463", "savelog": "yes", "monitor": "yes"}
+], "log_comm": "no"}
