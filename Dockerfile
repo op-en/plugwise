@@ -8,13 +8,14 @@ RUN apt-get update && \
     wget https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -O - | python && \
     apt-get autoremove -y wget ca-certificates
 
-RUN apt-get update && apt-get install -y gcc
-RUN pip install paho-mqtt
-ADD src /opt/plugwise
-WORKDIR /opt/plugwise
-RUN python setup.py install
-
-RUN mkdir /plugwise && mkdir /plugwise/data && mkdir /plugwise/log && touch /plugwise/data/pwlastlog.log
+RUN apt-get update && apt-get install -y gcc && \
+    pip install paho-mqtt crcmod && \
+    apt-get autoremove -y gcc
 
 RUN apt-get install -y rsync
+RUN mkdir /plugwise && mkdir /plugwise/data && mkdir /plugwise/log && touch /plugwise/data/pwlastlog.log
+
+ADD src /opt/plugwise
+RUN cd /opt/plugwise && python setup.py install
+
 CMD ["python","/opt/plugwise/Plugwise-2.py"]

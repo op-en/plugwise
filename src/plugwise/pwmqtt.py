@@ -4,6 +4,7 @@ import paho.mqtt.client as paho
 from .util import *
 import Queue
 import time
+import sys
 
 class Mqtt_client(object):
     """Main program class
@@ -40,6 +41,7 @@ class Mqtt_client(object):
         self.mqttc.on_subscribe = self.on_subscribe
 
         print "Connecting with username: %s and password: %s" % (self.user,self.password)
+        sys.stdout.flush()
         debug("Connecting with username: %s and password: %s" % (self.user,self.password))
 
         #Set the username and password if any
@@ -88,7 +90,14 @@ class Mqtt_client(object):
         info("MQTT " + msg.topic+" "+str(msg.payload))
         self.qsub.put((msg.topic, str(msg.payload)))
 
-    def on_connect(self, mosq, obj, rc):
+    def on_connect(self, mosq, obj, rc, five = None):
+
+        # Someone puts a fifth argument here, I don't know what it is.
+        # Could be something related to paho being used instead of mosquitto
+        # But if i just let it pass, everything works!
+        # Puha!
+        # /Leo, 2 dec 2015
+        
         if rc == 0:
             info("MQTT connected return code 0")
         else:
