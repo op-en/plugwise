@@ -6,9 +6,11 @@ This is part of the [Open Energy Project](http://op-en.se/), a research project 
 
 This is a fork of [a python script](https://github.com/SevenW/Plugwise-2-py) that communicates with plugwise smart energy plugs.
 
-It has been dockerized!
+But dockerized!!!
 
 Raspberry Pi build available in the [rpi folder](https://github.com/op-en/plugwise/tree/master/rpi)
+
+Note: The intel/amd version is just a draft atm. Haven't got it to work properly in boot2docker... Use a Pi meanwhile :()
 
 ## Quickstart
 
