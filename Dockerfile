@@ -17,4 +17,4 @@ RUN python setup.py install
 RUN mkdir /plugwise && mkdir /plugwise/data && mkdir /plugwise/log && touch /plugwise/data/pwlastlog.log
 
 RUN apt-get install -y rsync
-CMD python Plugwise-2.py
+CMD ["python","/opt/plugwise/Plugwise-2.py"]
